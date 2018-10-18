@@ -2425,7 +2425,7 @@ class CredentialTypeSerializer(BaseSerializer):
                 )
         ret = super(CredentialTypeSerializer, self).validate(attrs)
 
-        if 'kind' in attrs and attrs['kind'] not in ('cloud', 'net'):
+        if 'kind' in attrs and attrs['kind'] not in ('cloud', 'net', 'scm'):
             raise serializers.ValidationError({
                 "kind": _("Must be 'cloud' or 'net', not %s") % attrs['kind']
             })
@@ -2468,8 +2468,8 @@ class CredentialTypeSerializer(BaseSerializer):
         # API-created/modified CredentialType kinds are limited to
         # `cloud` and `net`
         if method in ('PUT', 'POST'):
-            fields['kind']['choices'] = list(filter(
-                lambda choice: choice[0] in ('cloud', 'net'),
+            fields['kind']['choices'] = filter(
+                lambda choice: choice[0] in ('cloud', 'net', 'scm'),
                 fields['kind']['choices']
             ))
         return fields
@@ -3093,7 +3093,7 @@ class JobTemplateSerializer(JobTemplateMixin, UnifiedJobTemplateSerializer, JobO
                 if self.version > 1:
                     summarized_cred['credential_type_id'] = cred.credential_type_id
                 all_creds.append(summarized_cred)
-                if cred.credential_type.kind in ('cloud', 'net'):
+                if cred.credential_type.kind in ('cloud', 'net', 'scm'):
                     extra_creds.append(summarized_cred)
                 elif summarized_cred['kind'] == 'ssh':
                     credential = summarized_cred
