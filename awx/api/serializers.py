@@ -2425,9 +2425,9 @@ class CredentialTypeSerializer(BaseSerializer):
                 )
         ret = super(CredentialTypeSerializer, self).validate(attrs)
 
-        if 'kind' in attrs and attrs['kind'] not in ('cloud', 'net', 'scm'):
+        if 'kind' in attrs and attrs['kind'] not in ('cloud', 'net', 'scm', 'ssh'):
             raise serializers.ValidationError({
-                "kind": _("Must be 'cloud' or 'net', not %s") % attrs['kind']
+                "kind": _("Must be 'cloud', 'scm', 'ssh', or 'net', not %s") % attrs['kind']
             })
 
         fields = attrs.get('inputs', {}).get('fields', [])
@@ -2469,7 +2469,7 @@ class CredentialTypeSerializer(BaseSerializer):
         # `cloud` and `net`
         if method in ('PUT', 'POST'):
             fields['kind']['choices'] = filter(
-                lambda choice: choice[0] in ('cloud', 'net', 'scm'),
+                lambda choice: choice[0] in ('cloud', 'net', 'scm', 'ssh'),
                 fields['kind']['choices']
             ))
         return fields
@@ -3093,7 +3093,7 @@ class JobTemplateSerializer(JobTemplateMixin, UnifiedJobTemplateSerializer, JobO
                 if self.version > 1:
                     summarized_cred['credential_type_id'] = cred.credential_type_id
                 all_creds.append(summarized_cred)
-                if cred.credential_type.kind in ('cloud', 'net', 'scm'):
+                if cred.credential_type.kind in ('cloud', 'net', 'scm', 'ssh'):
                     extra_creds.append(summarized_cred)
                 elif summarized_cred['kind'] == 'ssh':
                     credential = summarized_cred
@@ -4363,10 +4363,10 @@ class JobLaunchSerializer(BaseSerializer):
         # or multiples of same vault id
         distinct_cred_kinds = []
         for cred in accepted.get('credentials', []):
-            if cred.unique_hash() in distinct_cred_kinds:
-                errors.setdefault('credentials', []).append(_(
-                    'Cannot assign multiple {} credentials.'
-                ).format(cred.unique_hash(display=True)))
+            #if cred.unique_hash() in distinct_cred_kinds:
+            #    errors.setdefault('credentials', []).append(_(
+            #        'Cannot assign multiple {} credentials.'
+            #    ).format(cred.unique_hash(display=True)))
             if cred.credential_type.kind not in ('ssh', 'vault', 'cloud', 'net'):
                 errors.setdefault('credentials', []).append(_(
                     'Cannot assign a Credential of kind `{}`'

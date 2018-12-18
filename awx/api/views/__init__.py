@@ -147,6 +147,9 @@ from awx.api.views.root import ( # noqa
 logger = logging.getLogger('awx.api.views')
 
 
+logger = logging.getLogger('awx.api.views')
+
+
 def api_exception_handler(exc, context):
     '''
     Override default API exception handler to catch IntegrityError exceptions.
@@ -2626,9 +2629,9 @@ class JobTemplateCredentialsList(SubListCreateAttachDetachAPIView):
         return sublist_qs
 
     def is_valid_relation(self, parent, sub, created=False):
-        if sub.unique_hash() in [cred.unique_hash() for cred in parent.credentials.all()]:
-            return {"error": _("Cannot assign multiple {credential_type} credentials.").format(
-                credential_type=sub.unique_hash(display=True))}
+        #if sub.unique_hash() in [cred.unique_hash() for cred in parent.credentials.all()]:
+        #    return {"error": _("Cannot assign multiple {credential_type} credentials.").format(
+        #        credential_type=sub.unique_hash(display=True))}
         kind = sub.credential_type.kind
         if kind not in ('ssh', 'vault', 'cloud', 'net', 'scm'):
             return {'error': _('Cannot assign a Credential of kind `{}`.').format(kind)}
@@ -2642,13 +2645,13 @@ class JobTemplateExtraCredentialsList(JobTemplateCredentialsList):
 
     def get_queryset(self):
         sublist_qs = super(JobTemplateExtraCredentialsList, self).get_queryset()
-        sublist_qs = sublist_qs.filter(credential_type__kind__in=['cloud', 'net', 'scm'])
+        sublist_qs = sublist_qs.filter(credential_type__kind__in=['cloud', 'net', 'scm', 'ssh'])
         return sublist_qs
 
     def is_valid_relation(self, parent, sub, created=False):
         valid = super(JobTemplateExtraCredentialsList, self).is_valid_relation(parent, sub, created)
-        if sub.credential_type.kind not in ('cloud', 'net', 'scm'):
-            return {'error': _('Extra credentials must be network or cloud.')}
+        if sub.credential_type.kind not in ('cloud', 'net', 'scm', 'ssh'):
+            return {'error': _('Extra credentials must be network, source control, machine or cloud.')}
         return valid
 
 
@@ -3472,7 +3475,7 @@ class JobExtraCredentialsList(JobCredentialsList):
 
     def get_queryset(self):
         sublist_qs = super(JobExtraCredentialsList, self).get_queryset()
-        sublist_qs = sublist_qs.filter(credential_type__kind__in=['cloud', 'net', 'scm'])
+        sublist_qs = sublist_qs.filter(credential_type__kind__in=['cloud', 'net', 'scm', 'ssh'])
         return sublist_qs
 
 
