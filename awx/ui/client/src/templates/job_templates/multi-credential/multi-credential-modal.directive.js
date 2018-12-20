@@ -223,7 +223,6 @@ function multiCredentialModalController(GetBasePath, qs, MultiCredentialService)
                 .concat([credential]);
         } else {
             scope.modalSelectedCredentials = scope.modalSelectedCredentials
-                .filter(({ credential_type }) => credential_type !== credentialTypeId)
                 .concat([credential]);
         }
     };
