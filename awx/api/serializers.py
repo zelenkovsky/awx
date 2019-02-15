@@ -2471,7 +2471,7 @@ class CredentialTypeSerializer(BaseSerializer):
             fields['kind']['choices'] = filter(
                 lambda choice: choice[0] in ('cloud', 'net', 'scm', 'ssh'),
                 fields['kind']['choices']
-            ))
+            )
         return fields
 
 
