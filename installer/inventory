@@ -107,7 +107,7 @@ admin_user=admin
 admin_password=password
 
 # Whether or not to create preload data for demonstration purposes
-create_preload_data=True
+create_preload_data=true
 
 # AWX Secret key
 # It's *very* important that this stay the same between upgrades or you will lose the ability to decrypt
@@ -117,7 +117,7 @@ secret_key=awxsecret
 # Build AWX with official logos
 # Requires cloning awx-logos repo into the project root.
 # Review the trademark guidelines at https://github.com/ansible/awx-logos/blob/master/TRADEMARKS.md
-# awx_official=false
+awx_official=true
 
 # Proxy
 #http_proxy=http://proxy:3128
