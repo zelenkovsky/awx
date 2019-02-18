@@ -6,7 +6,7 @@ localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env pyth
 # Otherwise the setup playbook will install the official Ansible images. Versions may
 # be selected based on: latest, 1, 1.0, 1.0.0, 1.0.0.123
 # by default the base will be used to search for ansible/awx_web and ansible/awx_task
-dockerhub_base=ansible
+#dockerhub_base=ansible
 
 # Openshift Install
 # Will need to set -e openshift_password=developer -e docker_registry_password=$(oc whoami -t)
@@ -55,7 +55,7 @@ postgres_data_dir=/tmp/pgdocker
 host_port=80
 
 # Docker Compose Install
-# use_docker_compose=false
+use_docker_compose=true
 # The docker_compose.yml file will be created in this directory
 # The name of the directory (here "awx") will be the prefix of the docker containers
 docker_compose_dir=/var/lib/awx
@@ -74,7 +74,7 @@ docker_compose_dir=/var/lib/awx
 
 # Docker_image will not attempt to push to remote if the image already exists locally
 # Set this to true to delete images from docker on the build host so that they are pushed to the remote repository
-# docker_remove_local_images=False
+docker_remove_local_images=True
 
 # Set pg_hostname if you have an external postgres server, otherwise
 # a new postgres service will be created
@@ -99,7 +99,7 @@ rabbitmq_erlang_cookie=cookiemonster
 #                  Thus this setting must be set to False which will trigger a local build. To view the
 #                  typical dependencies that you might need to install see:
 #                  installer/image_build/files/Dockerfile.sdist
-# use_container_for_build=true
+use_container_for_build=true
 
 # This will create or update a default admin (superuser) account in AWX, if not provided
 # then these default values are used
