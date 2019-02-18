@@ -58,7 +58,7 @@ host_port=80
 use_docker_compose=true
 # The docker_compose.yml file will be created in this directory
 # The name of the directory (here "awx") will be the prefix of the docker containers
-docker_compose_dir=/var/lib/awx
+docker_compose_dir=../../awx-compose
 
 # Required for Openshift when building the image on your own
 # Optional for Openshift if using Dockerhub or another prebuilt registry
