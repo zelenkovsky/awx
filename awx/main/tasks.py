@@ -725,7 +725,7 @@ class BaseTask(object):
         }
         '''
         private_data = self.build_private_data(instance, **kwargs)
-        private_data_files = {'credentials': {}}
+        private_data_files = {'credentials': []}
         if private_data is not None:
             ssh_ver = get_ssh_version()
             ssh_too_old = True if ssh_ver == "unknown" else Version(ssh_ver) < Version("6.0")
@@ -746,7 +746,6 @@ class BaseTask(object):
                     name = 'credential_%d' % credential.pk
                     path = os.path.join(kwargs['private_data_dir'], name)
                     run.open_fifo_write(path, data)
-                    private_data_files['credentials'][credential.kind] = path
                 # Ansible network modules do not yet support ssh-agent.
                 # Instead, ssh private key file is explicitly passed via an
                 # env variable.
@@ -756,7 +755,8 @@ class BaseTask(object):
                     f.write(data)
                     f.close()
                     os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
-                private_data_files['credentials'][credential] = path
+                private_data_files['credentials'].append(path)
+
         return private_data_files
 
     def build_passwords(self, instance, **kwargs):
@@ -1088,11 +1088,8 @@ class BaseTask(object):
         '''
         private_data_files = kwargs.get('private_data_files', {})
         keys = []
-        if 'ssh' in private_data_files.get('credentials', {}):
-            keys.append(private_data_files['credentials']['ssh'])
-
-        if 'scm' in private_data_files.get('credentials', {}):
-            keys.append(private_data_files['credentials']['scm'])
+        for key in private_data_files['credentials']:
+            keys.append(key)
 
         if keys:
             return keys
