@@ -55,7 +55,7 @@ postgres_data_dir=/tmp/pgdocker
 host_port=80
 
 # Docker Compose Install
-use_docker_compose=true
+use_docker_compose=false
 # The docker_compose.yml file will be created in this directory
 # The name of the directory (here "awx") will be the prefix of the docker containers
 docker_compose_dir=../../awx-compose
@@ -117,7 +117,7 @@ secret_key=awxsecret
 # Build AWX with official logos
 # Requires cloning awx-logos repo into the project root.
 # Review the trademark guidelines at https://github.com/ansible/awx-logos/blob/master/TRADEMARKS.md
-awx_official=true
+awx_official=false
 
 # Proxy
 #http_proxy=http://proxy:3128
