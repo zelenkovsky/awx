@@ -120,7 +120,7 @@
     "html-entities": "^1.2.1",
     "inherits": "^1.0.2",
     "javascript-detect-element-resize": "^0.5.3",
-    "jquery": "~2.2.4",
+    "jquery": "~3.5.0",
     "jquery-ui": "^1.12.1",
     "js-yaml": "^3.2.7",
     "legacy-loader": "0.0.2",
