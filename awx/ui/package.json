@@ -111,7 +111,7 @@
     "angular-xeditable": "~0.8.0",
     "ansi-to-html": "^0.6.3",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
     "codemirror": "^5.17.0",
     "components-font-awesome": "^4.6.1",
